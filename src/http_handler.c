@@ -57,21 +57,11 @@ struct MemoryStruct * http_get(char *url) {
 	if (res != CURLE_OK) {
 		fprintf(stderr, "curl_easy_perform() failed: %s\n",
 				curl_easy_strerror(res));
+		curl_easy_cleanup(curl_handle);
+		exit(1);
 	} else {
 		pStruct = &chunk;
+		curl_easy_cleanup(curl_handle);
 		return pStruct;
 	}
-
-	return(0);
-}
-
-
-
-int main(void) {
-	struct MemoryStruct * chunk;
-
-	chunk = http_get("https://google.com");
-	
-	printf("%s", chunk->memory);
-	return(0);
 }
